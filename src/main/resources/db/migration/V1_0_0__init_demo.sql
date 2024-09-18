@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS trainer
+(
+   name VARCHAR PRIMARY KEY,
+   img VARCHAR NOT NULL
+);

@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pokedex-back-end
+    username: pokedex
+    password: password
