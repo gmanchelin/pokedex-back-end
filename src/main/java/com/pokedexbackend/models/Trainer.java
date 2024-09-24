@@ -16,6 +16,11 @@ public class Trainer {
     @Column(name = "img", nullable = false)
     private String img;
 
+    public Trainer(String name, String img) {
+        this.name = name;
+        this.img = img;
+    }
+
     public String getName() {
         return name;
     }
