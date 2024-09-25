@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface TrainerRepository extends JpaRepository<Trainer, String> {
+public interface TrainerRepository extends JpaRepository<Trainer, Integer> {
     Optional<Trainer> findByName(String name);
 
     List<Trainer> findAll();

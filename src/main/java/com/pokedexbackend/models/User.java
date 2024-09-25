@@ -1,9 +1,6 @@
 package com.pokedexbackend.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -23,6 +20,10 @@ public class User implements UserDetails {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_trainer")
+    private Trainer trainer;
 
     public User(String username, String email, String password) {
         this.username = username;
@@ -50,6 +51,14 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public Trainer getTrainer() {
+        return trainer;
+    }
+
+    public void setTrainer(Trainer trainer) {
+        this.trainer = trainer;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -74,8 +83,7 @@ public class User implements UserDetails {
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", email='" + email +
                 '}';
     }
 }

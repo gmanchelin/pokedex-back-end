@@ -1,39 +1,33 @@
 package com.pokedexbackend.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 
 @Entity
-@Table(name = "trainer")
+@Table(name = "trainers")
 public class Trainer {
 
     @Id
+    @Column(name = "id_trainer")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idTrainer;
+
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "img", nullable = false)
     private String img;
 
-    public Trainer(String name, String img) {
+    public Trainer() {
+    }
+
+    public Trainer(Integer idTrainer, String name, String img) {
+        this.idTrainer = idTrainer;
         this.name = name;
         this.img = img;
     }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
     }
 }

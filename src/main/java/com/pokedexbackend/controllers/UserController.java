@@ -4,6 +4,7 @@ import com.pokedexbackend.configs.CustomUserDetailsService;
 import com.pokedexbackend.configs.JwtService;
 import com.pokedexbackend.dto.LoggingUserDto;
 import com.pokedexbackend.dto.UserDto;
+import com.pokedexbackend.models.Trainer;
 import com.pokedexbackend.models.User;
 import com.pokedexbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -33,6 +37,7 @@ public class UserController {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final Trainer DEFAULT_TRAINER = new Trainer(0, "MissingNo", "https://upload.wikimedia.org/wikipedia/commons/3/3b/MissingNo.svg");
     public UserController(UserRepository userRepository, JwtService jwtService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
@@ -52,7 +57,9 @@ public class UserController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             UserDetails userDetails = userDetailsService.loadUserByUsername(loggingUserDto.getUsernameOrEmail());
             String jwt = jwtService.generateToken(userDetails);
-            return ResponseEntity.ok(jwt);
+            Map<String, String> tokenResponse = new HashMap<>();
+            tokenResponse.put("token", jwt);
+            return ResponseEntity.ok(tokenResponse);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
@@ -64,7 +71,9 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         String encodedPassword = passwordEncoder.encode(userDto.getPassword());
-        userRepository.save(new User(userDto.getUsername(), userDto.getEmail(), encodedPassword));
+        User user = new User(userDto.getUsername(), userDto.getEmail(), encodedPassword);
+        user.setTrainer(DEFAULT_TRAINER);
+        userRepository.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
