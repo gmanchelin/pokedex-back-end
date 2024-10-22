@@ -7,10 +7,12 @@ CREATE TABLE IF NOT EXISTS trainers
 
 CREATE TABLE IF NOT EXISTS users
 (
+   id_user INT PRIMARY KEY,
    username VARCHAR UNIQUE NOT NULL,
    email VARCHAR UNIQUE NOT NULL,
    password VARCHAR NOT NULL,
    id_trainer INT,
+   role VARCHAR NOT NULL,
    CONSTRAINT user_trainer_fk FOREIGN KEY(id_trainer) REFERENCES trainers (id_trainer)
 );
 

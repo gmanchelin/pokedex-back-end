@@ -12,6 +12,10 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id
+    @Column(name="id_user")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idUser;
+
     @Column(name = "username", nullable = false)
     private String username;
 
@@ -25,10 +29,15 @@ public class User implements UserDetails {
     @JoinColumn(name = "id_trainer")
     private Trainer trainer;
 
-    public User(String username, String email, String password) {
+    @Column(name = "role", nullable = false)
+    private String role;
+
+    public User(String username, String email, String password, Trainer trainer, String role) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.trainer = trainer;
+        this.role = role;
     }
 
     public User() {
@@ -41,6 +50,14 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -57,6 +74,14 @@ public class User implements UserDetails {
 
     public void setTrainer(Trainer trainer) {
         this.trainer = trainer;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

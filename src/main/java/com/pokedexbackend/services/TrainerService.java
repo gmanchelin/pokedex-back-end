@@ -1,6 +1,7 @@
 package com.pokedexbackend.services;
 
 import com.pokedexbackend.exceptions.AlreadyExistsException;
+import com.pokedexbackend.exceptions.NotFoundException;
 import com.pokedexbackend.models.Trainer;
 import com.pokedexbackend.repositories.TrainerRepository;
 import jakarta.transaction.Transactional;
@@ -30,5 +31,9 @@ public class TrainerService {
 
     public List<Trainer> getTrainers() {
         return trainerRepository.findAll();
+    }
+
+    public Trainer getDefaultTrainer() throws NotFoundException {
+        return trainerRepository.findById(0).orElseThrow(() -> new NotFoundException("Default Trainer not found."));
     }
 }

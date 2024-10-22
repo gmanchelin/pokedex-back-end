@@ -21,8 +21,7 @@ public class Trainer {
     public Trainer() {
     }
 
-    public Trainer(Integer idTrainer, String name, String img) {
-        this.idTrainer = idTrainer;
+    public Trainer(String name, String img) {
         this.name = name;
         this.img = img;
     }
@@ -30,4 +29,6 @@ public class Trainer {
     public String getName() {
         return name;
     }
+
+    public String getImg() { return img; }
 }
